@@ -1,0 +1,20 @@
+---
+#
+- hosts: all
+  become: yes
+
+  vars:
+    configure_pihole: true
+
+
+  vars_files:
+    - group_vars/password_vault.yml
+
+
+  roles:
+    - name: ansible-pihole-heise
+
+#  tasks:
+#    - include_role:
+#        name: ansible-pihole-heise
+#
