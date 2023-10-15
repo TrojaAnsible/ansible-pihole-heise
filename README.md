@@ -24,6 +24,8 @@ Role Variables
 |stubby_image|stubby image|juharov/stubby-vance-arm:latest|no|
 |vault_pihole_web_password|pihole web password|no default|yes|
 
+The variables docker_dirs1 docker_dirs2 create directory with two different groupnames. Groupname docker_dirs1 is used to align host group name with container group id
+
 
 Dependencies
 ------------
