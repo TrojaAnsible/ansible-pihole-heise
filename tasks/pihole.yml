@@ -1,0 +1,56 @@
+---
+- name: Create docker directories
+  ansible.builtin.file:
+    path: "{{ docker_home }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: dietpi
+    mode: 0775
+  with_items: "{{ docker_dirs1 }}"
+
+
+- name: Create docker directories
+  ansible.builtin.file:
+    path: "{{ docker_home }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: docker
+    mode: 0755
+  with_items: "{{ docker_dirs2 }}"
+
+
+- name: lookup files with filetree
+  ansible.builtin.set_fact:
+    out_pihole: "{{ lookup('community.general.filetree', 'files/opt/docker/pihole') }}"
+
+
+- name: Copy file from filetree
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ docker_home }}/pihole/{{ item.path }}"
+    owner: "{{ app_user }}"
+    group: docker
+    mode: "{{ item.mode }}"
+    backup: yes
+  loop: "{{ out_pihole }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when: item.state == 'file'
+
+- name: deploy {{ pihole_myconfig }}
+  ansible.builtin.template:
+    src: "{{ pihole_myconfig }}.j2"
+    dest: "{{ docker_home }}/pihole/etc-dnsmasq.d/{{ pihole_myconfig }}"
+    owner: "{{ app_user }}"
+    group: docker
+    mode: u=rw,g=r,o=r
+
+- name: deploy {{ pihole_env }}
+  ansible.builtin.template:
+    src: "{{ pihole_env }}.j2"
+    dest: "{{ docker_home }}/pihole/.env"
+    owner: "{{ app_user }}"
+    group: docker
+    mode: u=rw,g=r,o=r
+    backup: yes
+#

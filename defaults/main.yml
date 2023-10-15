@@ -1,0 +1,54 @@
+---
+# defaults file for ansible-pihole-heise
+
+# OS config
+timezone: Europe/Vienna
+
+
+# pihole application user
+app_user: 'pihole'
+
+
+# vault passwords
+vault_pihole_web_password:
+
+
+#
+pihole_myconfig: 99-my-config.conf
+
+
+# docker home
+docker_home: /opt/docker
+
+
+# pihole
+docker_dirs1:
+  - pihole/etc-pihole
+
+
+# pihole
+docker_dirs2:
+  - pihole/etc-dnsmasq.d
+  - pihole/config
+  - pihole/backup
+  - pihole/log
+
+
+# pihole
+pihole_image: "pihole/pihole:latest"
+stubby_image: "juharov/stubby-vance-arm:latest"
+dnscrypt_image: "klutchell/dnscrypt-proxy:2.1.5"
+
+
+# env files
+pihole_env: pihole.env
+
+
+# service
+pihole_service: pihole.service
+
+# init.d script
+pihole_script: pihole
+pihole_rc_slevel: [5]
+pihole_rc_klevel: [0, 1, 6]
+#

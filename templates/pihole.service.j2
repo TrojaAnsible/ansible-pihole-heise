@@ -1,0 +1,20 @@
+[Unit]
+Description=pihole
+Requires=docker.service multi-user.target
+After=docker.service network-online.target
+
+[Service]
+StartLimitInterval=5
+StartLimitBurst=10
+
+WorkingDirectory={{ docker_home}}/pihole
+
+ExecStart={{ docker_home}}/pihole/pihole.sh start
+ExecStop={{ docker_home}}/pihole/pihole.sh stop
+
+Restart=on-failure
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target
+

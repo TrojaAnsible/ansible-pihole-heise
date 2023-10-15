@@ -1,0 +1,11 @@
+---
+# tasks file for ansible-pihole-heise
+#
+
+- assert:
+    that:
+      - vault_pihole_web_password != None
+    fail_msg: vault password for pihole web not set.
+
+- import_tasks: pihole.yml
+- import_tasks: initd.yml

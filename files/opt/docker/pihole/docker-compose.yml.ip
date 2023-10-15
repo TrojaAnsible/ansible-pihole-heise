@@ -1,0 +1,84 @@
+---
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/
+# and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: ${pihole_image}
+    hostname: ${SERVER_NAME}
+    depends_on:
+      - stubby
+      - server
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "8080:80/tcp"
+    environment:
+      TZ: ${TZ}
+      VIRTUAL_HOST: ${SERVER_NAME}
+      PROXY_LOCATION: ${SERVER_NAME}
+      FTLCONF_LOCAL_IPV4: ${SERVER_IP}
+      WEBPASSWORD: ${PIHOLE_WEB_PASSWORD}
+      PIHOLE_DNS_: '${CONTAINER_NET}.3#8053;${CONTAINER_NET}.4#5053'
+      CACHE_SIZE: ${CACHE_SIZE}
+      DNS_BOGUS_PRIV: ${DNS_BOGUS_PRIV}
+      DNS_FQDN_REQUIRED: ${DNS_FQDN_REQUIRED}
+      DNSMASQ_LISTENING: ${DNSMASQ_LISTENING}
+      DNSSEC: ${DNSSEC}
+      TEMPERATUREUNIT: ${TEMPERATUREUNIT}
+      REV_SERVER: ${REV_SERVER}
+      REV_SERVER_DOMAIN: ${REV_SERVER_DOMAIN}
+      REV_SERVER_TARGET: ${REV_SERVER_TARGET}
+      REV_SERVER_CIDR: ${REV_SERVER_CIDR}
+    # Volumes store your data between container upgrades
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    networks:
+      dns:
+        ipv4_address: ${CONTAINER_NET}.2
+    restart: unless-stopped
+
+  stubby:
+    image: ${stubby_image}
+    container_name: stubby
+    volumes:
+      - ${STUBBY_CONF}:/opt/stubby/etc/stubby/stubby.yml:ro
+    networks:
+      dns:
+        ipv4_address: ${CONTAINER_NET}.3
+    ports:
+      - "10053:8053/udp"
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+    restart: unless-stopped
+
+  server:
+    image: ${dnscrypt_image}
+    container_name: dnscrypt-proxy
+    volumes:
+      - ${DNSCRYPT_CONF}:/config/dnscrypt-proxy.toml:ro
+    networks:
+      dns:
+        ipv4_address: ${CONTAINER_NET}.4
+    ports:
+      - "20053:5053/udp"
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+    restart: unless-stopped
+
+
+networks:
+  dns:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${CONTAINER_NET}.0/16
+#

@@ -1,0 +1,10 @@
+---
+#
+- name: deploy {{ pihole_script }}
+  ansible.builtin.copy:
+    src: "{{ pihole_script }}"
+    dest: "/etc/init.d/{{ pihole_script }}"
+    owner: root
+    group: root
+    mode: 0755
+#
