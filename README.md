@@ -13,8 +13,8 @@ Role Variables
 |-------------------|-------------|-------------|---------|
 |app_user|user for the install directory| pihole|no|
 |docker_home|base install directory| /opt/docker|no|
-|docker_dirs1|list of installation sub-directory|no|
-|docker_dirs2|list of installation sub-directory|no|
+|docker_dirs1|list of installation sub-directory|pihole/etc-pihole|no|
+|docker_dirs2|list of installation sub-directory||no|
 |pihole_env| template name|pihole.env|no|
 |timezone|Timezone| Europe/Vienna|no|
 |pihole_image|pihole image|pihole/pihole:latest|no|
