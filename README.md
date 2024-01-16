@@ -35,6 +35,17 @@ Role Variables
 The variables docker_dirs1 docker_dirs2 create directory with two different groupnames. Groupname docker_dirs1 is used to align host group name with container group id
 
 
+Note
+------------
+
+The default values for ```REV_SERVER_TARGET``` and ```REV_SERVER_CIDR``` are set by ansible. It is assumed, that the default gateway is your router and upstream DNS ip.
+```
+REV_SERVER_TARGET: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
+REV_SERVER_CIDR: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"
+```
+If you have a different setup, you need to overwrite this in the role vars list
+
+
 Dependencies
 ------------
 
