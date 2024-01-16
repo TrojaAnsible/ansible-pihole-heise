@@ -51,7 +51,7 @@ Dependencies
 
 a Docker installation.
 
-[e.g. role is used by](https://github.com/plix1014/docker-pihole-dot-doh)
+e.g. role is used by [docker-pihole-dot-doh](https://github.com/plix1014/docker-pihole-dot-doh)
 
 
 Example Playbook
