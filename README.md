@@ -49,9 +49,9 @@ If you have a different setup, you need to overwrite this in the role vars.
 Dependencies
 ------------
 
-a Docker installation.
+A Docker installation.
 
-e.g. role is used by [docker-pihole-dot-doh](https://github.com/plix1014/docker-pihole-dot-doh)
+e.g. role creates following setup [docker-pihole-dot-doh](https://github.com/plix1014/docker-pihole-dot-doh)
 
 
 Example Playbook
