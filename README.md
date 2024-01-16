@@ -23,6 +23,14 @@ Role Variables
 |dnscrypt_image|dnscrypt-proxy image|klutchell/dnscrypt-proxy:2.1.5|no|
 |stubby_image|stubby image|juharov/stubby-vance-arm:latest|no|
 |vault_pihole_web_password|pihole web password|no default|yes|
+|CONTAINER_NET|subnet for the three containers|172.25.0|no|
+|REV_SERVER|Enable DNS conditional |"true"|no|
+|REV_SERVER_DOMAIN|local DNS domain|"fritz.box"|no|
+|REV_SERVER_TARGET|local DNS server|"{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"|no|
+|REV_SERVER_CIDR|local CIDR network notation|"{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"|no|
+|DNSCRYPT_CONF|dnscrypt config file|./config/dnscrypt-proxy.toml|no|
+|STUBBY_CONF|stubby config file|./config/stubby-quad9.yml|no|
+
 
 The variables docker_dirs1 docker_dirs2 create directory with two different groupnames. Groupname docker_dirs1 is used to align host group name with container group id
 
@@ -30,15 +38,24 @@ The variables docker_dirs1 docker_dirs2 create directory with two different grou
 Dependencies
 ------------
 
+(see docker-pihole-dot-doh)[https://github.com/plix1014/docker-pihole-dot-doh]
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Including an example of how to use your role (for instance, with variables passed in as parameters):
 
-    - hosts: servers
-      roles:
-         - { role: ansible-pihole-heise }
+```
+  tasks:
+    - include_role:
+        name: ansible-pihole-heise
+      vars:
+        timezone: Europe/Vienna
+        stubby_image: "juharov/stubby-vance-arm:latest"
+        REV_SERVER_DOMAIN: "fritz.box"
+```
+
 
 License
 -------

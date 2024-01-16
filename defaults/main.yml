@@ -44,11 +44,20 @@ dnscrypt_image: "klutchell/dnscrypt-proxy:2.1.5"
 pihole_env: pihole.env
 
 
-# service
-pihole_service: pihole.service
-
 # init.d script
 pihole_script: pihole
-pihole_rc_slevel: [5]
-pihole_rc_klevel: [0, 1, 6]
+
 #
+# templates
+CONTAINER_NET: 172.25.0
+REV_SERVER: "true"
+REV_SERVER_DOMAIN: "fritz.box"
+REV_SERVER_TARGET: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
+REV_SERVER_CIDR: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"
+
+#DNSCRYPT_CONF: ./config/dnscrypt-proxy-klutchell.toml
+DNSCRYPT_CONF: ./config/dnscrypt-proxy.toml
+
+#STUBBY_CONF: ./config/stubby-clouldflare.yml
+STUBBY_CONF: ./config/stubby-quad9.yml
+

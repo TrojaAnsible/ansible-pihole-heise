@@ -11,10 +11,11 @@
     - group_vars/password_vault.yml
 
 
-  roles:
-    - name: ansible-pihole-heise
+  tasks:
+    - include_role:
+        name: ansible-pihole-heise
+      vars:
+        timezone: Europe/Vienna
+        stubby_image: "juharov/stubby-vance-arm:latest"
+        REV_SERVER_DOMAIN: "fritz.box"
 
-#  tasks:
-#    - include_role:
-#        name: ansible-pihole-heise
-#
