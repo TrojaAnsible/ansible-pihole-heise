@@ -43,13 +43,15 @@ The default values for ```REV_SERVER_TARGET``` and ```REV_SERVER_CIDR``` are set
 REV_SERVER_TARGET: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"
 REV_SERVER_CIDR: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"
 ```
-If you have a different setup, you need to overwrite this in the role vars list
+If you have a different setup, you need to overwrite this in the role vars.
 
 
 Dependencies
 ------------
 
-(see docker-pihole-dot-doh)[https://github.com/plix1014/docker-pihole-dot-doh]
+a Docker installation.
+
+(e.g. role is used by)[https://github.com/plix1014/docker-pihole-dot-doh]
 
 
 Example Playbook
