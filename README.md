@@ -27,7 +27,7 @@ Role Variables
 |REV_SERVER|Enable DNS conditional |"true"|no|
 |REV_SERVER_DOMAIN|local DNS domain|"fritz.box"|no|
 |REV_SERVER_TARGET|local DNS server|"{{ hostvars[inventory_hostname]['ansible_default_ipv4']['gateway'] }}"|no|
-|REV_SERVER_CIDR|local CIDR network notation|"{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"|no|
+|REV_SERVER_CIDR|local CIDR network notation|"{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) &#124; ansible.utils.ipaddr('network/prefix') }}"|no|
 |DNSCRYPT_CONF|dnscrypt config file|./config/dnscrypt-proxy.toml|no|
 |STUBBY_CONF|stubby config file|./config/stubby-quad9.yml|no|
 
