@@ -106,7 +106,7 @@ pihole_backup() {
 	DATE=$(date +'%Y-%m-%d_%H')
 
 	printf "  creating backup "
-	docker exec -it pihole bash -c "cd /tmp && pihole -a -t"
+	docker exec -i pihole bash -c "cd /tmp && pihole -a -t"
 	if [ $? -eq 0 ]; then
 	    echo "OK."
 	else
@@ -115,7 +115,7 @@ pihole_backup() {
 	fi
 
 	# get backup filename
-	BK_NAME=$(docker exec -it pihole bash -c "ls -t /tmp/pi-hole-${SERVER_NAME}-teleporter_${DATE}-*.gz | head -1" | perl -pe 's/\r//')
+	BK_NAME=$(docker exec -i pihole bash -c "ls -t /tmp/pi-hole-${SERVER_NAME}-teleporter_${DATE}-*.gz | head -1" | perl -pe 's/\r//')
 
 	printf "  copy backup $BK_NAME to $BK_DIR "
 	docker cp pihole:$BK_NAME $BK_DIR
